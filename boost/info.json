@@ -1,0 +1,7 @@
+{
+    "id": "boost",
+    "name": "BOOST",
+    "description": "Boost provides free peer-reviewed portable C++ source libraries.",
+    "category": "Library",
+    "dependence": []
+}

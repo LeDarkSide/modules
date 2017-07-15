@@ -1,0 +1,7 @@
+{
+    "id": "atom",
+    "name": "Atom",
+    "description": "A hackable text editor for the 21st Century",
+    "category": "Application",
+    "dependence": []
+}

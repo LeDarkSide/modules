@@ -1,0 +1,7 @@
+{
+    "id": "cmake",
+    "name": "CMake",
+    "description": "CMake is an open-source, cross-platform family of tools designed to build, test and package software.",
+    "category": "Application",
+    "dependence": []
+}
