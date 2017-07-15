@@ -1,0 +1,7 @@
+{
+    "id": "cloud",
+    "name": "CLOUD",
+    "description": "Cloud allows the configuration of file(case) to synchronize",
+    "category": "Application",
+    "dependence": []
+}
