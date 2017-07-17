@@ -22,7 +22,7 @@
 default_location=~/Data # L'emplacement par default
 install_location=$default_location # L'emplacement final d'instalation des dossiers
 date=$( date +%Y%m%d ) # date courante
-log_location=/var/tmp/TheDarkSide
+log_location=/var/tmp/LeDarkSide
 
 # Fin variable grobal
 
@@ -36,23 +36,32 @@ log_location=/var/tmp/TheDarkSide
 # ----- Function folder ------
 
 function folder () { #location
+  echo "Debut de la fonction folder "
   if [ -d "$1" ] || [ -d "$default_location" ];
   then
-    echo "dossier déjâ installé"
+    echo "  dossier déjâ installé"
     install_location=$default_location
   else
     if [ -n $1 ]
     then
-      echo "creation dossier par default"
+      echo "  creation dossier par default"
       mkdir $default_location
       install_location=$default_location
     else
-      echo "creation dossier utilisateur"
+      echo "  creation dossier utilisateur"
       install_location=$1
       mkdir "$install_location"
     fi
   fi
-  mkdir /var/tmp/TheDarkSide
+  if [ -d "$log_location" ]
+  then
+    echo "  Le dossier temporaire situé au $log_location est déjà crée"
+  else
+    echo "  création du dossier temporaire ..."
+    echo "  le chemin est $log_location"
+    mkdir $log_location
+  fi
+  echo "Fin de la fonction folder "
 }
 
 
@@ -68,12 +77,18 @@ function folder () { #location
 # ----- Function github ------
 
 function github() { # folder_name,adresse,branche
+  echo "Debut de la fonction github "
   if [ -d "$install_location/$1" ]
   then
-    echo "Le git $1 existe déjà"
-    echo " Mise à jour du git ..."
-    cd $install_location/$1 | git pull
-    log $install_location/$1 "git update" $2
+      if check $install_location/$1
+      then
+        echo "  Le git $1 existe déjà"
+        echo "  Mise à jour du git ..."
+        cd $install_location/$1 | git pull
+        log $install_location/$1 "git update" $2
+      else
+        echo "  Un dossier existe déja,cependant  n'es pas un git"
+      fi
   else
     if [ -n $3 ]
     then
@@ -84,6 +99,7 @@ function github() { # folder_name,adresse,branche
       log $install_location/$1 git $2 $3
     fi
   fi
+  echo "Fin de la fonction github "
 }
 
 # ----- Function log ------
@@ -102,12 +118,16 @@ function github() { # folder_name,adresse,branche
 # ----- Function log ------
 
 function log() { # dossier , type , adresse , branche
+  echo "Debut de la fonction log "
   if [ -n $3 ]
   then
+    echo "  [ date : $date ] [ dossier : $1 ] [ type : $2 ] [ adresse : $3 ] "
     echo " [ date : $date ] [ dossier : $1 ] [ type : $2 ] [ adresse : $3 ] " >> $log_location/datalog.txt
   else
+    echo "  [ date : $date ] [ dossier : $1 ] [ type : $2 ]  [ adresse : $3 ] [ branche : $4 ] "
     echo " [ date : $date ] [ dossier : $1 ] [ type : $2 ]  [ adresse : $3 ] [ branche : $4 ] " >> $log_location/datalog.txt
   fi
+  echo "Fin de la fonction log "
 }
 
 # ----- Function clean ------
@@ -133,8 +153,8 @@ function clean() {
 function svn() {
   if [ -d "$install_location/$1" ]
   then
-    echo "Le svn $1 existe déjà"
-    echo " Mise à jour du svn ..."
+    echo "  Le svn $1 existe déjà"
+    echo "  Mise à jour du svn ..."
     cd $install_location/$1 | svn update
     log $install_location/$1 "svn update" $2
   else
@@ -152,10 +172,7 @@ function svn() {
 
 # ----- Function webserver ------
 
-function webserver(){
-
-
-}
+#function webserver() {}
 
 # ----- Function check ------
 #
@@ -166,12 +183,27 @@ function webserver(){
 #  Dosser : adresse absolue du dossier trouvé
 # ----- Function check ------
 
-function check(){
-
+function check() {
+  if [ -d $1/.git ]
+  then
+    return 0
+  else
+    return 1
+  fi
 }
 
 # Main
 
+echo "Valeur des variables globals : " ;echo -e
+echo "----------------------------------"
+echo "  default_location = $default_location"
+echo "  install_location = $install_location"
+echo "  date = $date"
+echo "  log_location = $log_location"
+echo "----------------------------------" ;echo -e
+
+
 folder
 github IUT https://github.com/LinkIsACake/IUT.git
 github OTHERS https://github.com/LinkIsACake/OTHERS.git
+github TEST https://github.com/LinkIsACake/OTHERS.git
