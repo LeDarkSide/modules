@@ -1,6 +1,7 @@
 {
     "id": "boost",
     "name": "BOOST",
+    "version": "1.0.0",
     "description": "Boost provides free peer-reviewed portable C++ source libraries.",
     "category": "Library",
     "dependence": []

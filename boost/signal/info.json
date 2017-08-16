@@ -1,6 +1,7 @@
 {
     "id": "boost_signal",
     "name": "Signal",
+    "version": "1.0.0",
     "description": "The Boost.Signals2 library is an implementation of a managed signals and slots system.",
     "category": "",
     "dependence": []

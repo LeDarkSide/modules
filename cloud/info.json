@@ -1,6 +1,7 @@
 {
     "id": "cloud",
     "name": "Cloud",
+    "version": "1.0.0",
     "description": "",
     "category": "Application",
     "dependence": []
